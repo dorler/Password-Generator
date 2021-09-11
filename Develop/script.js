@@ -1,66 +1,80 @@
-const { randomFill } = require("node:crypto");
+// Assignment code here
 
-// Assignment Code
+// Get references to the #generate element
 var generateBtn = document.querySelector("#generate");
 
-//Function to Calls out Invalid input
-var test = function () {
-  var response = prompt("Question?");
-  if (response === "" || response === null) {
-    window.alert("You need to provide a valid answer! Please try again.");
-    test();
-  }
-  return response;
-};
+//define the variables
+var specialCharacters = "!@#$%^&*()_+<>?:{}";
+var lowerCase = "qwertyuiopasdfghjklzxcvbnm";
+var upperCase = "AZQWERTYUIOPASDFGHJKLZXCVBNM";
+var numeric = "1234567890";
 
-// Input Length of password? 8-128
-var passwordLength = function () {
-  var x = window.prompt(
-    "Please select the length of your password between 8 and 128"
+var characterChoices = [
+  "1-lowerCase",
+  "2-upperCase",
+  "3-specialCharacters",
+  "4-numeric",
+];
+
+var characterChoice = function () {
+  parseInt(
+    prompt(
+      "Enter the Characters you would like to use 1-lowerCase 2-UpperCase 3-SpecialCharacters 4-numeric"
+    )
   );
-  if (x < "8" || x > "128" || response === null) {
-    test();
-    passwordLength();
-  } else {
-    passwordCharacter();
-  }
-};
-
-// Please select the character types you would like to include:
-var passwordCharacter = function () {
-  var y = window.prompt(" Which character types would you like to include? ");
-  
-  if ( y !== /[^a-zA-Z0-9\-\/]/ || response === null) {
-    window.alert("You need to provide a valid answer! Please try again.");
-  }
-  else {
-    generatePassword();
-  }
-};
-
-// Write password to the #password input
-function writePassword() {
-  window.alert("Please select the necessary password criteria");
-  //call Password length function
-  passwordLength();
-  //call password character function
-  passwordCharacter();
+  for (i = 0; i < 3; i++) console.log(characterChoices(characterChoice));
+  //result for character choice
 
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
+};
+
+// Write password to the #password input
+function writePassword() {
+  //prompt user for password length
+  var passwordLength = parseInt(
+    prompt(
+      "What would you like the length of your password to be? Please select between 8 & 128"
+    )
+  );
+  //check if user input is valid
+  if (passwordLength < 8 || passwordLength > 128) {
+    alert("Please select a number between 8 and 128");
+    return;
+  }
+  //Prompt user for character choices
+  const wantUppers = confirm("Do you want uppers?");
+  const wantLowers = confirm("Do you want lowers?");
+  const wantSpecials = confirm("Do you want Specials?");
+  const wantNums = confirm("Do you want Numbers?");
+
+  let possibleCharacters = "";
+
+  if (wantUppers) {
+    possibleCharacters += upperCase;
+  }
+  if (wantLowers) {
+    possibleCharacters += lowerCase;
+  }
+  if (wantSpecials) {
+    possibleCharacters += specialCharacters;
+  }
+  if (wantNums) {
+    possibleCharacters += numeric;
+  }
+
+  let password = "";
+
+  for (var i = 0; i < passwordLength; i++) {
+    const randIndex = Math.floor(Math.random() * possibleCharacters.length);
+    const random = possibleCharacters[randIndex];
+    password += random;
+  }
+
+  document.querySelector("#password").value = password;
 }
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
-
-writePassword();
-
-// Generate Password
-
-var generatePassword = function () {
-  x + y + randomFill ;
-};
-
-//display new password 
